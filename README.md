@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/meringu/circuits.svg)](https://travis-ci.org/meringu/circuits)
+[![Build Status](https://travis-ci.org/meringu/circuits.svg?branch=master)](https://travis-ci.org/meringu/circuits)
 [![Coverage Status](https://coveralls.io/repos/meringu/circuits/badge.svg?branch=master&service=github)](https://coveralls.io/github/meringu/circuits?branch=master)
 
 # Circuits
