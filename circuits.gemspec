@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Henry Muru Paenga']
   spec.email         = ['meringu@gmail.com']
   spec.summary       = 'Express logical circuits in code'
-  spec.homepage      = 'github.com/meringu/circuits'
+  spec.homepage      = 'https://github.com/meringu/circuits'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
