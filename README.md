@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/meringu/circuits.svg?branch=master)](https://travis-ci.org/meringu/circuits)
 [![Coverage Status](https://coveralls.io/repos/meringu/circuits/badge.svg?branch=master&service=github)](https://coveralls.io/github/meringu/circuits?branch=master)
+[![Code Climate](https://codeclimate.com/github/meringu/circuits/badges/gpa.svg)](https://codeclimate.com/github/meringu/circuits)
 
 # Circuits
 
