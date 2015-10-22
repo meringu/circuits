@@ -1,3 +1,11 @@
 language: ruby
 rvm:
-  - 2.1.7
+- 2.1.7
+deploy:
+  provider: rubygems
+  api_key:
+    secure: K2gXdUNvY+lydX07VBbBf+pHab9tqkKjE7/4LL+sq0AJOLl+WSpu7Y1gyPUNNlVNlI8zdD10o0aSAiL30knk9Gff5XLycWZtK7U3oLf0npO0JLas6CeWrs7kVcOkMZkRxTabgDdKUsq37Jj3ROXXY8Y3404Ne9IjUstJl0AS0AQkcIYjThrXGUFfJY5QRx8iPIuDejoVLSgIADgw2tLcmZNwvDy/BucpNg3/HlZbFvZeFIkzqcknY1hmFEKJq55s3Y/Gbr0InAkLxfbRwK6cVBQxaxEV271+o54bj59UAIOiry5Zvxzeb/5r8r37c6eOJx5Yr5dNUy0Nn4fPloseWaKkvAQQEgA15JdYQRvMPJa67i9IaHcOB01+gfFK1gOymGHf+WYCrgRNf5S67MtozIeM42GRwg2z0sTszcSC8YIMs0dDSCqj53aMgGApJH4mguk7dDAB0kpdQHet/B6EvvjA9DDky5qc59WmJSJFGi0JwBWWi+Z3YhCutPa9vLlpGDDyb/j46ZMbhn2KsDwd6hWUusqTxu/HjO9bELCmsPvg9IOEFQ/eCiE834UerOYDWwf7JLelDOFwpQ2qpssmQjSI288gzMM66OWsi2xOaaReZZJyJ40zgOdekvFSR9fzrwStQMdDg3qbdxQZ5q+LWEprjPBev9kdkihNCE9DV9I=
+  gem: circuits
+  on:
+    tags: true
+    repo: meringu/circuits
