@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/meringu/circuits.svg)](https://travis-ci.org/meringu/circuits)
+
 # Circuits
 
 Express logical circuits in code!
