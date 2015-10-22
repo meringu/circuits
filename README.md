@@ -1,0 +1,59 @@
+# Circuits
+
+Express logical circuits in code!
+
+## How it works
+
+You define components in terms of other component's inputs and outputs. Every
+"tick" the components compute their next outputs. In between each "tick" the
+"tock" will update the outputs before the next tick
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'circuits'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install circuits
+
+## Usage
+
+### Using a component
+
+```ruby
+and_gate = Circuits::Component::And.new
+# Set the inputs
+and_gate.inputs[0].set true
+and_gate.inputs[1].set false
+# Update the AND gate
+and_gate.tick # compute the next output from the inputs
+and_gate.tock # apply to the output after all components have "ticked"
+# Get the output
+and_gate.outputs[0].get # false
+```
+
+### Linking components
+
+```ruby
+and_gate = Circuits::Component::And.new
+not_gate = Circuits::Component::And.new(inputs: [and_gate.outputs[0])
+```
+
+## Contributing
+
+1. Fork it ( https://github.com/meringu/circuits/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Make your changes
+4. Run the tests (`bundle exec rake`)
+5. Pass rubocop ( https://github.com/bbatsov/rubocop )
+4. Bump the version ( http://semver.org/ )
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
