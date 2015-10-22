@@ -57,7 +57,6 @@ not_gate = Circuits::Component::And.new(inputs: [and_gate.outputs[0])
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Make your changes
 4. Run the tests (`bundle exec rake`)
-5. Pass rubocop ( https://github.com/bbatsov/rubocop )
-4. Bump the version ( http://semver.org/ )
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create a new Pull Request
+5. Bump the version ( http://semver.org/ )
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create a new Pull Request

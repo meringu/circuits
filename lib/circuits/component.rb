@@ -10,6 +10,7 @@ module Circuits
       @inputs = opts[:inputs] ||
                 input_count.times.collect { Circuits::Terminal::Input.new }
       @outputs = output_count.times.collect { Circuits::Terminal::Output.new }
+      setup
     end
 
     attr_reader :inputs, :outputs
@@ -20,6 +21,9 @@ module Circuits
 
     def output_count
       fail NotImplementedError
+    end
+
+    def setup
     end
 
     def tick
