@@ -50,7 +50,7 @@ and_gate.outputs[0].get # false
 
 ```ruby
 and_gate = Circuits::Component::And.new
-not_gate = Circuits::Component::And.new(inputs: [and_gate.outputs[0])
+not_gate = Circuits::Component::Not.new(inputs: [and_gate.outputs[0]])
 ```
 
 ## Contributing
