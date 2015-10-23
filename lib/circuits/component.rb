@@ -26,7 +26,11 @@ module Circuits
       outputs.each(&:tock)
     end
 
-    attr_reader :inputs, :outputs
+    # the inputs of this component
+    attr_reader :inputs
+
+    # the outputs of this component
+    attr_reader :outputs
 
     private
 

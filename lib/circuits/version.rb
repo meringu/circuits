@@ -1,5 +1,5 @@
 # Circuits allows you to express logical circuits in code
 module Circuits
   # The version of the Circuits gem
-  VERSION = '0.2.5'
+  VERSION = '0.2.6'
 end

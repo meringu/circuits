@@ -4,6 +4,9 @@ module Circuits
   module Terminal
     # Belongs to a single component, gets set for reading by inputs
     class Output
+      # Creates the output
+      # @param opts [Hash] Options to create the Output with
+      # @option opts [Boolean] :state The initial state of the Output
       def initialize(opts = {})
         @next_state = opts[:state] || false
         @state = opts[:state] || false

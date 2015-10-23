@@ -11,8 +11,9 @@ end
 describe Circuits::Terminal::Input do
   let(:output) { double('output') }
 
-  describe '#output' do
+  describe '#initialize' do
     context 'when given an output' do
+
       subject { Circuits::Terminal::Input.new(output: output) }
 
       it 'sets the output' do

@@ -11,12 +11,13 @@ module Circuits
         @output = opts[:output] || Circuits::Terminal::Output.new
       end
 
+      # The output the input reads from
       attr_accessor :output
 
       # Forward get to the output
       # @return [Boolean] The state of the output
       def get
-        output.get
+        @output.get
       end
 
       # Create a new output to use
