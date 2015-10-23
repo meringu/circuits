@@ -1,20 +1,27 @@
+require 'circuits/terminal'
+
 module Circuits
   module Terminal
-    # Owned by a single component, gets set for reading by inputs
+    # Belongs to a single component, gets set for reading by inputs
     class Output
       def initialize(opts = {})
         @next_state = opts[:state] || false
         @state = opts[:state] || false
       end
 
+      # Gets the state of the output
+      # @return [TrueClass, FalseClass] The state of the output
       def get
         state
       end
 
+      # Saves the state
+      # @param [TrueClass, FalseClass] The next desired state of the output
       def set(s)
         @next_state = s
       end
 
+      # Sets the state to be the last state passed by #set
       def tock
         @state = next_state
       end

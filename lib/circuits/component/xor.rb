@@ -6,16 +6,19 @@ module Circuits
     class Xor
       include Component
 
+      # Sets the output to be the result of a logical XOR of the inputs
+      def tick
+        outputs[0].set(inputs[0].get != inputs[1].get)
+      end
+
+      private
+
       def input_count
         2
       end
 
       def output_count
         1
-      end
-
-      def tick
-        outputs[0].set(inputs[0].get != inputs[1].get)
       end
     end
   end

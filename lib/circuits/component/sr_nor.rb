@@ -6,14 +6,7 @@ module Circuits
     class SrNor
       include Component
 
-      def input_count
-        2
-      end
-
-      def output_count
-        2
-      end
-
+      # Computes the outputs based on the inputs and previous state
       def tick
         2.times.each do
           sub_components.each(&:tick)
@@ -26,6 +19,14 @@ module Circuits
       private
 
       attr_reader :nor_1, :nor_2, :sub_components
+
+      def input_count
+        2
+      end
+
+      def output_count
+        2
+      end
 
       def setup
         @nor_1 = Nor.new(inputs: [inputs[0]])

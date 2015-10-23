@@ -6,6 +6,9 @@ module Circuits
   # computes its outputs, but the componnent will wait for the `tock` before the
   # componnent updates its own outputs
   module Component
+    # Creates the Component with inputs and outputs
+    # @param opts [Hash] options to create the Component with
+    # @option opts [Array<Input>] :inputs The array of inputs to use
     def initialize(opts = {})
       @inputs = opts[:inputs] ||
                 input_count.times.collect { Circuits::Terminal::Input.new }
@@ -13,7 +16,19 @@ module Circuits
       setup
     end
 
+    # Does the internal computation and sets the outputs
+    def tick
+      fail NotImplementedError
+    end
+
+    # Sets all the outputs expose what was set in #tick
+    def tock
+      outputs.each(&:tock)
+    end
+
     attr_reader :inputs, :outputs
+
+    private
 
     def input_count
       fail NotImplementedError
@@ -24,14 +39,6 @@ module Circuits
     end
 
     def setup
-    end
-
-    def tick
-      fail NotImplementedError
-    end
-
-    def tock
-      outputs.each(&:tock)
     end
   end
 end
