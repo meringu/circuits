@@ -10,13 +10,13 @@ module Circuits
       end
 
       # Gets the state of the output
-      # @return [TrueClass, FalseClass] The state of the output
+      # @return [Boolean] The state of the output
       def get
         state
       end
 
       # Saves the state
-      # @param [TrueClass, FalseClass] The next desired state of the output
+      # @param [Boolean] s The next desired state of the output
       def set(s)
         @next_state = s
       end

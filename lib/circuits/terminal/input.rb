@@ -14,13 +14,13 @@ module Circuits
       attr_accessor :output
 
       # Forward get to the output
-      # @return [TrueClass, FalseClass] The state of the output
+      # @return [Boolean] The state of the output
       def get
         output.get
       end
 
       # Create a new output to use
-      # @param [TrueClass, FalseClass] The state of the output to create
+      # @param [Boolean] s The state of the output to create
       def set(s)
         @output = Circuits::Terminal::Output.new(state: s)
       end
