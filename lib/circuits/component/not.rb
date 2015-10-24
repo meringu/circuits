@@ -13,12 +13,9 @@ module Circuits
 
       private
 
-      def input_count
-        1
-      end
-
-      def output_count
-        1
+      def set_defaults
+        @input_count = 1
+        @output_count = 1
       end
     end
   end

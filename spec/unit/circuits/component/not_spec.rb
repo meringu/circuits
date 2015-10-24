@@ -5,7 +5,7 @@ describe Circuits::Component::Not do
   describe '#tick' do
     subject { Circuits::Component::Not.new }
 
-    before { subject.inputs[0].set input }
+    before { subject[:in].set input }
 
     context '!false' do
       let(:input) { false }
@@ -13,7 +13,7 @@ describe Circuits::Component::Not do
       it '= true' do
         subject.tick
         subject.tock
-        expect(subject.outputs[0].get).to eq(true)
+        expect(subject[:out].get).to eq(true)
       end
     end
 
@@ -23,7 +23,7 @@ describe Circuits::Component::Not do
       it '= false' do
         subject.tick
         subject.tock
-        expect(subject.outputs[0].get).to eq(false)
+        expect(subject[:out].get).to eq(false)
       end
     end
   end
