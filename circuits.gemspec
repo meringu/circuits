@@ -21,4 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.3'
+  spec.add_development_dependency 'rubocop', '~> 0.34'
+  spec.add_development_dependency 'reek', '~> 3.5'
+  spec.add_development_dependency 'yard', '~> 0.8.7'
 end
