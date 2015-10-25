@@ -12,28 +12,33 @@ module Circuits
           sub_components.each(&:tick)
           sub_components.each(&:tock)
         end
-        outputs[0].set nor_1.outputs[0].get
-        outputs[1].set nor_2.outputs[0].get
+        self[:q].set nor_1[:out].get
+        self[:not_q].set nor_2[:out].get
       end
 
       private
 
       attr_reader :nor_1, :nor_2, :sub_components
 
-      def input_count
-        2
-      end
-
-      def output_count
-        2
+      def set_defaults
+        @input_count = 2
+        @output_count = 2
+        @port_mappings = {
+          r: { type: :input, number: 0 },
+          s: { type: :input, number: 1 },
+          q: { type: :output, number: 0 },
+          not_q: { type: :output, number: 1 }
+        }
       end
 
       def setup
-        @nor_1 = Nor.new(inputs: [inputs[0]])
-        @nor_2 = Nor.new(inputs: [inputs[1]])
+        @nor_1 = Nor.new
+        @nor_2 = Nor.new
         @sub_components = [@nor_1, @nor_2]
-        nor_1.inputs << nor_2.outputs[0]
-        nor_2.inputs << nor_1.outputs[0]
+        nor_1[:a] = self[:r]
+        nor_2[:a] = self[:s]
+        nor_1[:b] = nor_2[:out]
+        nor_2[:b] = nor_1[:out]
       end
     end
   end

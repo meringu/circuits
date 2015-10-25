@@ -7,8 +7,8 @@ describe Circuits::Component::Nand do
       subject { Circuits::Component::Nand.new }
 
       before do
-        subject.inputs[0].set input_1
-        subject.inputs[1].set input_2
+        subject[:a].set input_1
+        subject[:b].set input_2
       end
 
       context 'false + false' do
@@ -18,7 +18,7 @@ describe Circuits::Component::Nand do
         it '= true' do
           subject.tick
           subject.tock
-          expect(subject.outputs[0].get).to eq(true)
+          expect(subject[:out].get).to eq(true)
         end
       end
 
@@ -29,7 +29,7 @@ describe Circuits::Component::Nand do
         it '= true' do
           subject.tick
           subject.tock
-          expect(subject.outputs[0].get).to eq(true)
+          expect(subject[:out].get).to eq(true)
         end
       end
 
@@ -40,7 +40,7 @@ describe Circuits::Component::Nand do
         it '= true' do
           subject.tick
           subject.tock
-          expect(subject.outputs[0].get).to eq(true)
+          expect(subject[:out].get).to eq(true)
         end
       end
 
@@ -51,7 +51,7 @@ describe Circuits::Component::Nand do
         it '= false' do
           subject.tick
           subject.tock
-          expect(subject.outputs[0].get).to eq(false)
+          expect(subject[:out].get).to eq(false)
         end
       end
     end
@@ -69,7 +69,7 @@ describe Circuits::Component::Nand do
           it '= false' do
             subject.tick
             subject.tock
-            expect(subject.outputs[0].get).to eq(false)
+            expect(subject[:out].get).to eq(false)
           end
         end
 
@@ -79,7 +79,7 @@ describe Circuits::Component::Nand do
           it '= true' do
             subject.tick
             subject.tock
-            expect(subject.outputs[0].get).to eq(true)
+            expect(subject[:out].get).to eq(true)
           end
         end
 
@@ -95,7 +95,7 @@ describe Circuits::Component::Nand do
               it '= true' do
                 subject.tick
                 subject.tock
-                expect(subject.outputs[0].get).to eq(true)
+                expect(subject[:out].get).to eq(true)
               end
             end
           end

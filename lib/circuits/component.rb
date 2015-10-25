@@ -11,11 +11,10 @@ module Circuits
     # @option opts [Array<Input>, FixNum] :inputs The array of inputs to use, or
     #   the number of inputs to create
     def initialize(opts = {})
-      @inputs = opts[:inputs] if opts[:inputs].is_a? Array
-      @inputs = create_inputs opts[:inputs] if opts[:inputs].is_a? Integer
-      @inputs = create_inputs input_count if opts[:inputs].nil?
-
-      @outputs = output_count.times.collect { Circuits::Terminal::Output.new }
+      set_defaults
+      create_inputs opts
+      create_outputs opts
+      create_port_mappings
       setup
     end
 
@@ -29,6 +28,33 @@ module Circuits
       outputs.each(&:tock)
     end
 
+    # Gets the teminal assigned to the port
+    # @param port [Symbol] The symbol that represents the terminal
+    # @return [Input, Output] The terminal
+    def [](port)
+      p = @port_mappings[port]
+      case p[:type]
+      when :input
+        @inputs[p[:number]]
+      when :output
+        @outputs[p[:number]]
+      end
+    end
+
+    # Assigns to an input or output
+    # @param port [Symbol] The symbol that represents the terminal
+    # @param terminal [Input, Output] The terminal to assign
+    # @return [Input, Output] The terminal that was passed in
+    def []=(port, terminal)
+      p = @port_mappings[port]
+      case p[:type]
+      when :input
+        @inputs[p[:number]] = terminal
+      when :output
+        @outputs[p[:number]] = terminal
+      end
+    end
+
     # the inputs of this component
     attr_reader :inputs
 
@@ -37,23 +63,56 @@ module Circuits
 
     private
 
-    def input_count
-      fail NotImplementedError
-    end
-
-    def output_count
-      fail NotImplementedError
-    end
-
-    # Creates an array of N inputs, where N is equal to or greater than the
-    #   default number of inputs for this component
-    # @param n [FixNum] The number of inputs to create
-    # @return [Array<Input>] An array of inputs
-    def create_inputs(n)
-      if n < input_count
-        fail ArgumentError, "Invalid number of inputs, #{self.class} requires at least #{input_count} inputs"
+    def create_inputs(opts)
+      if opts[:inputs].class == Array
+        @inputs = opts[:inputs]
+        @input_count = @inputs.length
+      elsif opts[:inputs].class == Fixnum
+        @input_count = opts[:inputs]
       end
-      n.times.collect { Circuits::Terminal::Input.new }
+      @inputs ||= @input_count.times.collect { Circuits::Terminal::Input.new }
+    end
+
+    def create_outputs(opts)
+      if opts[:outputs].class == Array
+        @outputs = opts[:outputs]
+        @output_count = @outputs.length
+      elsif opts[:outputs].class == Fixnum
+        @output_count = opts[:outputs]
+      end
+      @outputs ||= @output_count.times.collect do
+        Circuits::Terminal::Output.new
+      end
+    end
+
+    def create_port_mappings
+      return @port_mappings unless @port_mappings.nil?
+      @port_mappings = {}
+      input_mappings.each { |x| @port_mappings.merge!(x) }
+      output_mappings.each { |x| @port_mappings.merge!(x) }
+      @port_mappings
+    end
+
+    def input_mappings
+      return [{ in: { type: :input, number: 0 } }] if @input_count == 1
+      @input_count.times.collect do |i|
+        { num_to_port(i) =>  { type: :input, number: i } }
+      end
+    end
+
+    def output_mappings
+      return[{ out: { type: :output, number: 0 } }] if @output_count == 1
+      @output_count.times.collect do |i|
+        { num_to_port(i + @input_count) =>  { type: :output, number: i } }
+      end
+    end
+
+    def num_to_port(i)
+      (i + 'a'.ord).chr.to_sym
+    end
+
+    def set_defaults
+      fail NotImplementedError
     end
 
     def setup
