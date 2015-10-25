@@ -66,7 +66,7 @@ module Circuits
     def create_inputs(opts)
       if opts[:inputs].class == Array
         @inputs = opts[:inputs]
-        @input_count = @inputs.count
+        @input_count = @inputs.length
       elsif opts[:inputs].class == Fixnum
         @input_count = opts[:inputs]
       end
@@ -76,7 +76,7 @@ module Circuits
     def create_outputs(opts)
       if opts[:outputs].class == Array
         @outputs = opts[:outputs]
-        @output_count = @output.length
+        @output_count = @outputs.length
       elsif opts[:outputs].class == Fixnum
         @output_count = opts[:outputs]
       end
