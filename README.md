@@ -38,20 +38,20 @@ Or install it yourself as:
 ```ruby
 and_gate = Circuits::Component::And.new
 # Set the inputs
-and_gate.inputs[0].set true
-and_gate.inputs[1].set false
+and_gate[:a].set true
+and_gate[:b].set false
 # Update the AND gate
 and_gate.tick # compute the next output from the inputs
 and_gate.tock # apply to the output after all components have "ticked"
 # Get the output
-and_gate.outputs[0].get # false
+and_gate[:out].get # false
 ```
 
 ### Linking components
 
 ```ruby
 and_gate = Circuits::Component::And.new
-not_gate = Circuits::Component::Not.new(inputs: [and_gate.outputs[0]])
+not_gate = Circuits::Component::Not.new(inputs: [and_gate[:out]])
 ```
 
 ## Contributing
