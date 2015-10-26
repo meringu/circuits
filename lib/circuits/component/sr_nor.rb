@@ -8,10 +8,7 @@ module Circuits
 
       # Computes the outputs based on the inputs and previous state
       def tick
-        2.times.each do
-          sub_components.each(&:tick)
-          sub_components.each(&:tock)
-        end
+        update_internal_components
         self[:q].set nor_1[:out].get
         self[:not_q].set nor_2[:out].get
       end
@@ -19,6 +16,19 @@ module Circuits
       private
 
       attr_reader :nor_1, :nor_2, :sub_components
+
+      def create_internal_components
+        @nor_1 = Nor.new
+        @nor_2 = Nor.new
+        @sub_components = [@nor_1, @nor_2]
+      end
+
+      def link_internal_components
+        nor_1[:a] = self[:r]
+        nor_2[:a] = self[:s]
+        nor_1[:b] = nor_2[:out]
+        nor_2[:b] = nor_1[:out]
+      end
 
       def set_defaults
         @input_count = 2
@@ -32,13 +42,15 @@ module Circuits
       end
 
       def setup
-        @nor_1 = Nor.new
-        @nor_2 = Nor.new
-        @sub_components = [@nor_1, @nor_2]
-        nor_1[:a] = self[:r]
-        nor_2[:a] = self[:s]
-        nor_1[:b] = nor_2[:out]
-        nor_2[:b] = nor_1[:out]
+        create_internal_components
+        link_internal_components
+      end
+
+      def update_internal_components
+        2.times.each do
+          sub_components.each(&:tick)
+          sub_components.each(&:tock)
+        end
       end
     end
   end

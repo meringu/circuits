@@ -96,14 +96,14 @@ module Circuits
     def input_mappings
       return [{ in: { type: :input, number: 0 } }] if @input_count == 1
       @input_count.times.collect do |i|
-        { num_to_port(i) =>  { type: :input, number: i } }
+        { num_to_port(i) => { type: :input, number: i } }
       end
     end
 
     def output_mappings
       return[{ out: { type: :output, number: 0 } }] if @output_count == 1
       @output_count.times.collect do |i|
-        { num_to_port(i + @input_count) =>  { type: :output, number: i } }
+        { num_to_port(i + @input_count) => { type: :output, number: i } }
       end
     end
 
