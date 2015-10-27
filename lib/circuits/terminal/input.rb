@@ -21,8 +21,11 @@ module Circuits
       # Output to use or state to make a dummy output with
       # @param [Output, Boolean] output The output to read from, or state
       def set(output)
-        @terminal = output
-        @terminal = Output.new(state: output) unless [Input, Output].include? output.class
+        if [Input, Output].include? output.class
+          @terminal = output
+        else
+          @terminal = Output.new(state: output)
+        end
       end
     end
   end
