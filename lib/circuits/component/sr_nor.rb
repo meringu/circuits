@@ -1,10 +1,15 @@
-require 'circuits/component'
+require 'circuits/component/base'
 
 module Circuits
   module Component
     # SR NOR Latch
-    class SrNor
-      include Component
+    class SrNor < Base
+      def initialize(opts = {})
+        set_defaults
+        super opts
+        create_internal_components
+        link_internal_components
+      end
 
       # Computes the outputs based on the inputs and previous state
       def tick
@@ -39,11 +44,6 @@ module Circuits
           q: { type: :output, number: 0 },
           not_q: { type: :output, number: 1 }
         }
-      end
-
-      def setup
-        create_internal_components
-        link_internal_components
       end
 
       def update_internal_components
