@@ -9,20 +9,20 @@ module Circuits
       # @param opts [Hash] Options to create the Input with
       # @option opts [Component::Output] :output The output to read from
       def initialize(opts = {})
-        @output = opts[:output] || Output.new
+        @terminal = opts[:terminal] || Output.new(state: opts[:state])
       end
 
       # Forward get to the output
       # @return [Boolean] The state of the output
       def get
-        @output.get
+        @terminal.get
       end
 
       # Output to use or state to make a dummy output with
       # @param [Output, Boolean] output The output to read from, or state
       def set(output)
-        @output = output
-        @output = Output.new(state: output) if [true, false].include? output
+        @terminal = output
+        @terminal = Output.new(state: output) unless [Input, Output].include? output.class
       end
     end
   end
