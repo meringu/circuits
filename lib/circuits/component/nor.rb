@@ -12,7 +12,7 @@ module Circuits
 
       # Sets the output to be the result of a logical OR of the inputs
       def tick
-        outputs[0].set(!inputs.map(&:get).inject(:|))
+        self[:out].set(!inputs.map(&:get).inject(:|))
       end
     end
   end

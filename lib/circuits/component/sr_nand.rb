@@ -1,4 +1,5 @@
 require 'circuits/component/base'
+require 'circuits/component/nand'
 
 module Circuits
   module Component
@@ -8,9 +9,9 @@ module Circuits
         set_defaults
         super opts
         create_sub_components
+        link_inputs
+        link_outputs
         link_sub_components
-        self[:q].set nand_1[:out]
-        self[:not_q].set nand_2[:out]
       end
 
       # Computes the outputs based on the inputs and previous state
@@ -31,11 +32,19 @@ module Circuits
         @sub_components = [@nand_1, @nand_2]
       end
 
+      def link_inputs
+        nand_1[:a].set self[:not_s]
+        nand_2[:a].set self[:not_r]
+      end
+
+      def link_outputs
+        self[:q].set nand_1[:out]
+        self[:not_q].set nand_2[:out]
+      end
+
       def link_sub_components
-        nand_1[:a] = self[:not_s]
-        nand_2[:a] = self[:not_r]
-        nand_1[:b] = nand_2[:out]
-        nand_2[:b] = nand_1[:out]
+        nand_1[:b].set nand_2[:out]
+        nand_2[:b].set nand_1[:out]
       end
 
       def set_defaults
