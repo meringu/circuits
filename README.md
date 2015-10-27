@@ -51,7 +51,8 @@ and_gate[:out].get # false
 
 ```ruby
 and_gate = Circuits::Component::And.new
-not_gate = Circuits::Component::Not.new(inputs: [and_gate[:out]])
+not_gate = Circuits::Component::Not.new
+not_gate[:in].set = and_gate[:out]
 ```
 
 ## Contributing
