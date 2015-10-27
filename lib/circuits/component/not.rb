@@ -1,21 +1,18 @@
-require 'circuits/component'
+require 'circuits/component/base'
 
 module Circuits
   module Component
     # Logical NOT Operator
-    class Not
-      include Component
+    class Not < Base
+      def initialize(opts = {})
+        @input_count = 1
+        @output_count = 1
+        super opts
+      end
 
       # Sets the output to be the result of a logical NOT of the inputs
       def tick
         outputs[0].set(!inputs[0].get)
-      end
-
-      private
-
-      def set_defaults
-        @input_count = 1
-        @output_count = 1
       end
     end
   end
