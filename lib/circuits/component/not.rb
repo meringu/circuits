@@ -12,7 +12,7 @@ module Circuits
 
       # Sets the output to be the result of a logical NOT of the inputs
       def tick
-        outputs[0].set(!inputs[0].get)
+        self[:out].set(!self[:in].get)
       end
     end
   end
