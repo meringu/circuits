@@ -1,5 +1,4 @@
-require 'circuits/terminal/input'
-require 'circuits/terminal/output'
+require 'circuits/terminal'
 
 module Circuits
   # A component has a set of inputs an outputs. Every `tick` a componnent
@@ -69,7 +68,7 @@ module Circuits
         elsif opts[:inputs].class == Fixnum
           @input_count = opts[:inputs]
         end
-        @inputs ||= @input_count.times.collect { Circuits::Terminal::Input.new }
+        @inputs ||= @input_count.times.collect { Circuits::Terminal.new }
       end
 
       def create_outputs(opts)
@@ -80,7 +79,7 @@ module Circuits
           @output_count = opts[:outputs]
         end
         @outputs ||= @output_count.times.collect do
-          Circuits::Terminal::Output.new
+          Circuits::Terminal.new
         end
       end
 
