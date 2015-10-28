@@ -58,7 +58,7 @@ describe Circuits::Component::Xnor do
     context 'when the number of inputs is even' do
       [2, 4, 8].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xnor.new inputs: n }
+          subject { Circuits::Component::Xnor.new input_count: n }
 
           before do
             n.times { |x| subject.inputs[x].set inputs[x] }
@@ -107,7 +107,7 @@ describe Circuits::Component::Xnor do
     context 'when the number of inputs is odd' do
       [3, 5, 7].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xnor.new inputs: n }
+          subject { Circuits::Component::Xnor.new input_count: n }
 
           before do
             n.times { |x| subject.inputs[x].set inputs[x] }

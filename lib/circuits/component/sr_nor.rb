@@ -5,9 +5,11 @@ module Circuits
   module Component
     # SR NOR Latch
     class SrNor < Base
-      def initialize(opts = {})
-        set_defaults
-        super opts
+      def initialize
+        super(port_mappings: { r: { type: :input, number: 0 },
+                               s: { type: :input, number: 1 },
+                               q: { type: :output, number: 0 },
+                               not_q: { type: :output, number: 1 } })
         create_sub_components
         link_inputs
         link_outputs
@@ -24,38 +26,35 @@ module Circuits
 
       private
 
-      attr_reader :nor_1, :nor_2, :sub_components
+      attr_reader :nor_r, :nor_s, :sub_components
 
       def create_sub_components
-        @nor_1 = Nor.new
-        @nor_2 = Nor.new
-        @sub_components = [@nor_1, @nor_2]
+        @nor_r = Nor.new
+        @nor_s = Nor.new
+        @sub_components = [@nor_r, @nor_s]
+      end
+
+      def default_input_count
+        2
+      end
+
+      def default_output_count
+        2
       end
 
       def link_inputs
-        nor_1[:a].set self[:r]
-        nor_2[:a].set self[:s]
+        nor_r[:a].set self[:r]
+        nor_s[:a].set self[:s]
       end
 
       def link_outputs
-        self[:q].set nor_1[:out]
-        self[:not_q].set nor_2[:out]
+        self[:q].set nor_r[:out]
+        self[:not_q].set nor_s[:out]
       end
 
       def link_sub_components
-        nor_1[:b].set nor_2[:out]
-        nor_2[:b].set nor_1[:out]
-      end
-
-      def set_defaults
-        @input_count = 2
-        @output_count = 2
-        @port_mappings = {
-          r: { type: :input, number: 0 },
-          s: { type: :input, number: 1 },
-          q: { type: :output, number: 0 },
-          not_q: { type: :output, number: 1 }
-        }
+        nor_r[:b].set nor_s[:out]
+        nor_s[:b].set nor_r[:out]
       end
     end
   end

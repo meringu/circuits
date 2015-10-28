@@ -6,6 +6,7 @@ module Circuits
       # Creates the output
       # @param opts [Hash] Options to create the Output with
       # @option opts [Boolean] :state The initial state of the Output
+      # @option opts [Input, Output] :terminal The terminal to read from
       def initialize(opts = {})
         @next_state = opts[:terminal] || opts[:state] || false
         tock
@@ -18,7 +19,7 @@ module Circuits
       end
 
       # The next state
-      # @param [Boolean, Terminal] terminal The terminal or state to output
+      # @param [Boolean, Terminal] state The terminal or state to output
       def set(state)
         @next_state = state
       end
