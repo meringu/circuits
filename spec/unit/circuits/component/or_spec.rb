@@ -57,7 +57,7 @@ describe Circuits::Component::Or do
     end
     [3, 4, 8].each do |n|
       context "with #{n} inputs" do
-        subject { Circuits::Component::Or.new inputs: n }
+        subject { Circuits::Component::Or.new input_count: n }
 
         before do
           n.times { |x| subject.inputs[x].set inputs[x] }

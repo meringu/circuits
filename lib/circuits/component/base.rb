@@ -10,17 +10,22 @@ module Circuits
     class Base
       # Creates the Component with inputs and outputs
       # @param opts [Hash] options to create the Component with
-      # @option opts [Array<Input>, FixNum] :inputs The array of inputs to use,
-      # or the number of inputs to create
+      # @option opts [FixNum] :input_count The number of inputs
+      # @option opts [FixNum] :ouput_count The number of outputs
+      # @option opts [Hash] :port_mappings The port_mappings to use
       def initialize(opts = {})
-        create_inputs opts
-        create_outputs opts
+        input_count = opts[:input_count] || default_input_count
+        output_count = opts[:output_count] || default_output_count
+        @inputs = input_count.times.collect { Circuits::Terminal::Input.new }
+        @outputs = output_count.times.collect { Circuits::Terminal::Output.new }
+        @port_mappings = opts[:port_mappings] || default_port_mappings
       end
 
-      # Does the internal computation and sets the outputs
-      def tick
-        fail NotImplementedError
-      end
+      # the inputs of this component
+      attr_reader :inputs
+
+      # the outputs of this component
+      attr_reader :outputs
 
       # Sets all the outputs expose what was set in #tick
       def tock
@@ -31,83 +36,46 @@ module Circuits
       # @param port [Symbol] The symbol that represents the terminal
       # @return [Input, Output] The terminal
       def [](port)
-        p = port_mappings[port]
-        case p[:type]
+        port_mapping = port_mappings[port]
+        port_number = port_mapping[:number]
+        case port_mapping[:type]
         when :input
-          inputs[p[:number]]
+          inputs[port_number]
         when :output
-          outputs[p[:number]]
+          outputs[port_number]
         end
       end
-
-      # Assigns to an input or output
-      # @param port [Symbol] The symbol that represents the terminal
-      # @param terminal [Input, Output] The terminal to assign
-      # @return [Input, Output] The terminal that was passed in
-      def []=(port, terminal)
-        p = port_mappings[port]
-        case p[:type]
-        when :input
-          inputs[p[:number]] = terminal
-        when :output
-          outputs[p[:number]] = terminal
-        end
-      end
-
-      # the inputs of this component
-      attr_reader :inputs
-
-      # the outputs of this component
-      attr_reader :outputs
 
       private
 
-      def create_inputs(opts)
-        if opts[:inputs].class == Array
-          @inputs = opts[:inputs]
-          @input_count = @inputs.length
-        elsif opts[:inputs].class == Fixnum
-          @input_count = opts[:inputs]
-        end
-        @inputs ||= @input_count.times.collect { Circuits::Terminal::Input.new }
-      end
+      attr_reader :port_mappings
 
-      def create_outputs(opts)
-        if opts[:outputs].class == Array
-          @outputs = opts[:outputs]
-          @output_count = @outputs.length
-        elsif opts[:outputs].class == Fixnum
-          @output_count = opts[:outputs]
+      def default_port_mappings
+        res = {}
+        (input_mappings + output_mappings).each do |mapping|
+          res.merge!(mapping)
         end
-        @outputs ||= @output_count.times.collect do
-          Circuits::Terminal::Output.new
-        end
-      end
-
-      def port_mappings
-        return @port_mappings unless @port_mappings.nil?
-        @port_mappings = {}
-        input_mappings.each { |x| @port_mappings.merge!(x) }
-        output_mappings.each { |x| @port_mappings.merge!(x) }
-        @port_mappings
+        res
       end
 
       def input_mappings
-        return [{ in: { type: :input, number: 0 } }] if @input_count == 1
-        @input_count.times.collect do |i|
-          { num_to_port(i) => { type: :input, number: i } }
+        input_count = inputs.length
+        return [{ in: { type: :input, number: 0 } }] if input_count == 1
+        input_count.times.collect do |num|
+          { num_to_port(num) => { type: :input, number: num } }
         end
       end
 
       def output_mappings
-        return[{ out: { type: :output, number: 0 } }] if @output_count == 1
-        @output_count.times.collect do |i|
-          { num_to_port(i + @input_count) => { type: :output, number: i } }
+        output_count = outputs.length
+        return[{ out: { type: :output, number: 0 } }] if output_count == 1
+        output_count.times.collect do |num|
+          { num_to_port(num + inputs.length) => { type: :output, number: num } }
         end
       end
 
-      def num_to_port(i)
-        (i + 'a'.ord).chr.to_sym
+      def num_to_port(num)
+        (num + 'a'.ord).chr.to_sym
       end
     end
   end
