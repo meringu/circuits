@@ -1,4 +1,6 @@
 require 'circuits/component/base'
+require 'circuits/component/sr_nand'
+require 'circuits/component/and'
 require 'circuits/component/nand'
 
 module Circuits
