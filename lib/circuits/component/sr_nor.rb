@@ -11,9 +11,8 @@ module Circuits
                                q: { type: :output, number: 0 },
                                not_q: { type: :output, number: 1 } })
         create_sub_components
-        link_inputs
-        link_outputs
         link_sub_components
+        reset
       end
 
       # Computes the outputs based on the inputs and previous state
@@ -42,9 +41,14 @@ module Circuits
         2
       end
 
-      def link_inputs
+      def link_nor_r
         nor_r[:a].set self[:r]
+        nor_r[:b].set nor_s[:out]
+      end
+
+      def link_nor_s
         nor_s[:a].set self[:s]
+        nor_s[:b].set nor_r[:out]
       end
 
       def link_outputs
@@ -53,8 +57,16 @@ module Circuits
       end
 
       def link_sub_components
-        nor_r[:b].set nor_s[:out]
-        nor_s[:b].set nor_r[:out]
+        link_nor_s
+        link_nor_r
+        link_outputs
+      end
+
+      def reset
+        self[:r].set true
+        tick
+        tock
+        self[:r].set false
       end
     end
   end
