@@ -7,15 +7,15 @@ describe Circuits::Component::SrNor do
 
     context 'it has just been initialized' do
       it 'is unset' do
-        expect(subject[:q].get).to eq(false)
-        expect(subject[:not_q].get).to eq(true)
+        expect(subject[:q].get).to eq false
+        expect(subject[:not_q].get).to eq true
       end
 
       it 'is stable' do
         subject.tick
         subject.tock
-        expect(subject[:q].get).to eq(false)
-        expect(subject[:not_q].get).to eq(true)
+        expect(subject[:q].get).to eq false
+        expect(subject[:not_q].get).to eq true
       end
     end
 
@@ -29,23 +29,23 @@ describe Circuits::Component::SrNor do
       end
 
       it 'is set' do
-        expect(subject[:q].get).to eq(true)
-        expect(subject[:not_q].get).to eq(false)
+        expect(subject[:q].get).to eq true
+        expect(subject[:not_q].get).to eq false
       end
 
       it 'is stable' do
         subject.tick
         subject.tock
-        expect(subject[:q].get).to eq(true)
-        expect(subject[:not_q].get).to eq(false)
+        expect(subject[:q].get).to eq true
+        expect(subject[:not_q].get).to eq false
       end
 
       it 'can be reset' do
         subject[:r].set true
         subject.tick
         subject.tock
-        expect(subject[:q].get).to eq(false)
-        expect(subject[:not_q].get).to eq(true)
+        expect(subject[:q].get).to eq false
+        expect(subject[:not_q].get).to eq true
       end
     end
 
@@ -59,23 +59,23 @@ describe Circuits::Component::SrNor do
       end
 
       it 'is reset' do
-        expect(subject[:q].get).to eq(false)
-        expect(subject[:not_q].get).to eq(true)
+        expect(subject[:q].get).to eq false
+        expect(subject[:not_q].get).to eq true
       end
 
       it 'is stable' do
         subject.tick
         subject.tock
-        expect(subject[:q].get).to eq(false)
-        expect(subject[:not_q].get).to eq(true)
+        expect(subject[:q].get).to eq false
+        expect(subject[:not_q].get).to eq true
       end
 
       it 'can be set' do
         subject[:s].set true
         subject.tick
         subject.tock
-        expect(subject[:q].get).to eq(true)
-        expect(subject[:not_q].get).to eq(false)
+        expect(subject[:q].get).to eq true
+        expect(subject[:not_q].get).to eq false
       end
     end
   end

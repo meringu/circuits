@@ -27,9 +27,19 @@ module Circuits
       # the outputs of this component
       attr_reader :outputs
 
+      def method_missing(method_name, *arguments, &block)
+        res = self[method_name]
+        super if res.nil?
+        res
+      end
+
       # Sets all the outputs expose what was set in #tick
       def tock
         outputs.each(&:tock)
+      end
+
+      def respond_to_missing?(method_name, include_private = false)
+        self[method_name].nil? || super
       end
 
       # Gets the teminal assigned to the port
