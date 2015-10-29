@@ -5,6 +5,20 @@ describe Circuits::Component::D do
   describe '#tick' do
     subject { Circuits::Component::D.new }
 
+    context 'it has just been initialized' do
+      it 'is unset' do
+        expect(subject[:q].get).to eq(false)
+        expect(subject[:not_q].get).to eq(true)
+      end
+
+      it 'is stable' do
+        subject.tick
+        subject.tock
+        expect(subject[:q].get).to eq(false)
+        expect(subject[:not_q].get).to eq(true)
+      end
+    end
+
     context 'has just been set' do
       before do
         subject[:clk].set false

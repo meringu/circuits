@@ -11,9 +11,8 @@ module Circuits
                                q: { type: :output, number: 0 },
                                not_q: { type: :output, number: 1 } })
         create_sub_components
-        link_inputs
-        link_outputs
         link_sub_components
+        reset
       end
 
       # Computes the outputs based on the inputs and previous state
@@ -42,9 +41,14 @@ module Circuits
         2
       end
 
-      def link_inputs
-        nand_s[:a].set self[:not_s]
+      def link_nand_r
         nand_r[:a].set self[:not_r]
+        nand_r[:b].set nand_s[:out]
+      end
+
+      def link_nand_s
+        nand_s[:a].set self[:not_s]
+        nand_s[:b].set nand_r[:out]
       end
 
       def link_outputs
@@ -53,8 +57,16 @@ module Circuits
       end
 
       def link_sub_components
-        nand_s[:b].set nand_r[:out]
-        nand_r[:b].set nand_s[:out]
+        link_nand_s
+        link_nand_r
+        link_outputs
+      end
+
+      def reset
+        self[:not_s].set true
+        tick
+        tock
+        self[:not_r].set true
       end
     end
   end

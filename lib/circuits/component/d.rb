@@ -3,7 +3,7 @@ require 'circuits/component/nand'
 
 module Circuits
   module Component
-    # Positive edge triggered flip flop
+    # Positive edge triggered D-type flip flop
     class D < Base
       def initialize
         super(port_mappings: { d: { type: :input, number: 0 },
@@ -12,6 +12,7 @@ module Circuits
                                not_q: { type: :output, number: 1 } })
         create_sub_components
         link_sub_components
+        reset
       end
 
       # Computes the outputs based on the inputs and previous state
@@ -74,6 +75,11 @@ module Circuits
         link_sr_nand_d
         link_sr_nand_clk
         link_sr_nand_out
+      end
+
+      def reset
+        tick
+        tock
       end
     end
   end
