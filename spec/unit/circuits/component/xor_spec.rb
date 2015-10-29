@@ -6,55 +6,47 @@ describe Circuits::Component::Xor do
     context 'default input count' do
       subject { Circuits::Component::Xor.new }
 
-      before do
-        subject[:a].set input_1
-        subject[:b].set input_2
-      end
-
       context 'false + false' do
-        let(:input_1) { false }
-        let(:input_2) { false }
-
         it '= false' do
+          subject.a.set false
+          subject.b.set false
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(false)
+          expect(subject.out.get).to eq false
         end
       end
 
       context 'true + false' do
-        let(:input_1) { true }
-        let(:input_2) { false }
-
         it '= true' do
+          subject.a.set true
+          subject.b.set false
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(true)
+          expect(subject.out.get).to eq true
         end
       end
 
       context 'false + true' do
-        let(:input_1) { false }
-        let(:input_2) { true }
-
         it '= true' do
+          subject.a.set false
+          subject.b.set true
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(true)
+          expect(subject.out.get).to eq true
         end
       end
 
       context 'true + true' do
-        let(:input_1) { true }
-        let(:input_2) { true }
-
         it '= false' do
+          subject.a.set true
+          subject.b.set true
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(false)
+          expect(subject.out.get).to eq false
         end
       end
     end
+
     context 'when the number of inputs is even' do
       [2, 4, 8].each do |n|
         context "with #{n} inputs" do
@@ -70,7 +62,7 @@ describe Circuits::Component::Xor do
             it '= false' do
               subject.tick
               subject.tock
-              expect(subject[:out].get).to eq(false)
+              expect(subject.out.get).to eq false
             end
           end
 
@@ -80,7 +72,7 @@ describe Circuits::Component::Xor do
             it '= false' do
               subject.tick
               subject.tock
-              expect(subject[:out].get).to eq(false)
+              expect(subject.out.get).to eq false
             end
           end
 
@@ -96,7 +88,7 @@ describe Circuits::Component::Xor do
                 it '= true' do
                   subject.tick
                   subject.tock
-                  expect(subject[:out].get).to eq(true)
+                  expect(subject.out.get).to eq true
                 end
               end
             end
@@ -119,7 +111,7 @@ describe Circuits::Component::Xor do
             it '= true' do
               subject.tick
               subject.tock
-              expect(subject[:out].get).to eq(true)
+              expect(subject.out.get).to eq true
             end
           end
 
@@ -129,7 +121,7 @@ describe Circuits::Component::Xor do
             it '= false' do
               subject.tick
               subject.tock
-              expect(subject[:out].get).to eq(false)
+              expect(subject.out.get).to eq false
             end
           end
 
@@ -145,7 +137,7 @@ describe Circuits::Component::Xor do
                 it '= false' do
                   subject.tick
                   subject.tock
-                  expect(subject[:out].get).to eq(false)
+                  expect(subject.out.get).to eq false
                 end
               end
             end
@@ -163,7 +155,7 @@ describe Circuits::Component::Xor do
                 it '= true' do
                   subject.tick
                   subject.tock
-                  expect(subject[:out].get).to eq(true)
+                  expect(subject.out.get).to eq true
                 end
               end
             end

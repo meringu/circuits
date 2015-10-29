@@ -6,55 +6,47 @@ describe Circuits::Component::Nand do
     context 'default input count' do
       subject { Circuits::Component::Nand.new }
 
-      before do
-        subject[:a].set input_1
-        subject[:b].set input_2
-      end
-
       context 'false + false' do
-        let(:input_1) { false }
-        let(:input_2) { false }
-
         it '= true' do
+          subject.a.set false
+          subject.b.set false
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(true)
+          expect(subject.out.get).to eq true
         end
       end
 
       context 'true + false' do
-        let(:input_1) { true }
-        let(:input_2) { false }
-
         it '= true' do
+          subject.a.set true
+          subject.b.set false
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(true)
+          expect(subject.out.get).to eq true
         end
       end
 
       context 'false + true' do
-        let(:input_1) { false }
-        let(:input_2) { true }
-
         it '= true' do
+          subject.a.set false
+          subject.b.set true
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(true)
+          expect(subject.out.get).to eq true
         end
       end
 
       context 'true + true' do
-        let(:input_1) { true }
-        let(:input_2) { true }
-
         it '= false' do
+          subject.a.set true
+          subject.b.set true
           subject.tick
           subject.tock
-          expect(subject[:out].get).to eq(false)
+          expect(subject.out.get).to eq false
         end
       end
     end
+
     [3, 4, 8].each do |n|
       context "with #{n} inputs" do
         subject { Circuits::Component::Nand.new input_count: n }
@@ -69,7 +61,7 @@ describe Circuits::Component::Nand do
           it '= false' do
             subject.tick
             subject.tock
-            expect(subject[:out].get).to eq(false)
+            expect(subject.out.get).to eq false
           end
         end
 
@@ -79,7 +71,7 @@ describe Circuits::Component::Nand do
           it '= true' do
             subject.tick
             subject.tock
-            expect(subject[:out].get).to eq(true)
+            expect(subject.out.get).to eq true
           end
         end
 
@@ -95,7 +87,7 @@ describe Circuits::Component::Nand do
               it '= true' do
                 subject.tick
                 subject.tock
-                expect(subject[:out].get).to eq(true)
+                expect(subject.out.get).to eq true
               end
             end
           end

@@ -27,9 +27,25 @@ module Circuits
       # the outputs of this component
       attr_reader :outputs
 
+      # For easy access to the ports
+      # @param [Symbol] method_name The name of the method
+      # @return [Input, Outpus] The corresponding port
+      def method_missing(method_name, *_, &__)
+        res = self[method_name]
+        super if res.nil?
+        res
+      end
+
       # Sets all the outputs expose what was set in #tick
       def tock
         outputs.each(&:tock)
+      end
+
+      # So we can advertise what ports are available from {#method_missing}
+      # @param [Symbol] method_name The name of the method
+      # @return [Boolean] Wether or a method call will be responded to
+      def respond_to_missing?(method_name, _)
+        !self[method_name].nil? || super
       end
 
       # Gets the teminal assigned to the port
@@ -37,6 +53,7 @@ module Circuits
       # @return [Input, Output] The terminal
       def [](port)
         port_mapping = port_mappings[port]
+        return nil if port_mapping.nil?
         port_number = port_mapping[:number]
         case port_mapping[:type]
         when :input
