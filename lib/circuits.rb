@@ -1,4 +1,5 @@
 require 'circuits/component/and'
+require 'circuits/component/d'
 require 'circuits/component/nand'
 require 'circuits/component/nor'
 require 'circuits/component/not'
