@@ -49,7 +49,7 @@ describe Circuits::Component::Nand do
 
     [3, 4, 8].each do |n|
       context "with #{n} inputs" do
-        subject { Circuits::Component::Nand.new input_count: n }
+        subject { Circuits::Component::Nand.new inputs: n }
 
         before do
           n.times { |x| subject.inputs[x].set inputs[x] }

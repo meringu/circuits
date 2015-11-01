@@ -50,7 +50,7 @@ describe Circuits::Component::Xor do
     context 'when the number of inputs is even' do
       [2, 4, 8].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xor.new input_count: n }
+          subject { Circuits::Component::Xor.new inputs: n }
 
           before do
             n.times { |x| subject.inputs[x].set inputs[x] }
@@ -99,7 +99,7 @@ describe Circuits::Component::Xor do
     context 'when the number of inputs is odd' do
       [3, 5, 7].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xor.new input_count: n }
+          subject { Circuits::Component::Xor.new inputs: n }
 
           before do
             n.times { |x| subject.inputs[x].set inputs[x] }

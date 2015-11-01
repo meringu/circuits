@@ -1,32 +1,10 @@
 require 'spec_helper'
 require 'circuits/component/base'
 
-# Mock component to include Circuits::Component::Base
-class MockComponent1 < Circuits::Component::Base
-  def default_input_count
-    1
-  end
-
-  def default_output_count
-    1
-  end
-end
-
-# Mock component to include Circuits::Component::Base
-class MockComponent2 < Circuits::Component::Base
-  def default_input_count
-    2
-  end
-
-  def default_output_count
-    2
-  end
-end
-
 describe Circuits::Component::Base do
   describe '#[]' do
     context 'one input and one output' do
-      subject { MockComponent1.new }
+      subject { Circuits::Component::Base.new(inputs: 1, outputs: 1) }
 
       it 'has the input available as #in' do
         expect(subject[:in]).to eq(subject.inputs[0])
@@ -62,7 +40,7 @@ describe Circuits::Component::Base do
     end
 
     context 'two inputs and two outputs' do
-      subject { MockComponent2.new }
+      subject { Circuits::Component::Base.new(inputs: 2, outputs: 2) }
 
       it 'has the inputs available as #a and #b' do
         expect(subject.a).to eq(subject.inputs[0])
