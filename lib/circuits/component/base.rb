@@ -21,6 +21,7 @@ module Circuits
         @port_mappings = create_port_mappings opts
         @sub_components = opts[:sub_components] || []
         @ticks = opts[:ticks] || 0
+        declare_ports_as_methods
       end
 
       # the inputs of this component
@@ -28,15 +29,6 @@ module Circuits
 
       # the outputs of this component
       attr_reader :outputs
-
-      # For easy access to the ports
-      # @param [Symbol] method_name The name of the method
-      # @return [Input, Outpus] The corresponding port
-      def method_missing(method_name, *_, &__)
-        res = self[method_name]
-        super if res.nil?
-        res
-      end
 
       # Computes the outputs based on the inputs and previous state
       def tick
@@ -49,13 +41,6 @@ module Circuits
       # Sets all the outputs expose what was set in #tick
       def tock
         outputs.each(&:tock)
-      end
-
-      # So we can advertise what ports are available from {#method_missing}
-      # @param [Symbol] method_name The name of the method
-      # @return [Boolean] Wether or a method call will be responded to
-      def respond_to_missing?(method_name, _)
-        !self[method_name].nil? || super
       end
 
       # Gets the teminal assigned to the port
@@ -92,6 +77,16 @@ module Circuits
           res.merge!(mapping)
         end
         res
+      end
+
+      def declare_ports_as_methods
+        @port_mappings.each do |method, _|
+          (class << self; self; end).class_eval do
+            define_method method do
+              self[method]
+            end
+          end
+        end
       end
 
       def input_mappings(input_names)
