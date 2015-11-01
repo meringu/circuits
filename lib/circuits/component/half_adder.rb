@@ -13,16 +13,20 @@ module Circuits
               outputs: [:s, :c],
               sub_components: [and_gate, xor_gate],
               ticks: 1)
-        link and_gate, xor_gate
+        link_internals and_gate, xor_gate
+        link_outputs and_gate, xor_gate
       end
 
       private
 
-      def link(and_gate, xor_gate)
+      def link_internals(and_gate, xor_gate)
         and_gate.a.set a
         and_gate.b.set b
         xor_gate.a.set a
         xor_gate.b.set b
+      end
+
+      def link_outputs(and_gate, xor_gate)
         s.set xor_gate.out
         c.set and_gate.out
       end
