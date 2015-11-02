@@ -12,7 +12,7 @@ describe Circuits::Component::HalfAdder do
         subject.tick
         subject.tock
         expect(subject.s.get).to eq false
-        expect(subject.c.get).to eq false
+        expect(subject.c_out.get).to eq false
       end
     end
 
@@ -23,7 +23,7 @@ describe Circuits::Component::HalfAdder do
         subject.tick
         subject.tock
         expect(subject.s.get).to eq true
-        expect(subject.c.get).to eq false
+        expect(subject.c_out.get).to eq false
       end
     end
 
@@ -34,7 +34,7 @@ describe Circuits::Component::HalfAdder do
         subject.tick
         subject.tock
         expect(subject.s.get).to eq true
-        expect(subject.c.get).to eq false
+        expect(subject.c_out.get).to eq false
       end
     end
 
@@ -45,7 +45,7 @@ describe Circuits::Component::HalfAdder do
         subject.tick
         subject.tock
         expect(subject.s.get).to eq false
-        expect(subject.c.get).to eq true
+        expect(subject.c_out.get).to eq true
       end
     end
   end
