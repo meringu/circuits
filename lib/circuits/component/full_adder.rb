@@ -43,8 +43,8 @@ module Circuits
       end
 
       def link_or_gate(sub_components)
-        sub_components[:or_gate].a.set sub_components[:half_adder_carry].c
-        sub_components[:or_gate].b.set sub_components[:half_adder_in].c
+        sub_components[:or_gate].a.set sub_components[:half_adder_carry].c_out
+        sub_components[:or_gate].b.set sub_components[:half_adder_in].c_out
       end
 
       def link_outputs(sub_components)

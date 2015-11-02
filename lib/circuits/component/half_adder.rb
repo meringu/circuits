@@ -10,7 +10,7 @@ module Circuits
         and_gate = And.new
         xor_gate = Xor.new
         super(inputs: 2,
-              outputs: [:s, :c],
+              outputs: [:s, :c_out],
               sub_components: [and_gate, xor_gate],
               ticks: 1)
         link_internals and_gate, xor_gate
@@ -28,7 +28,7 @@ module Circuits
 
       def link_outputs(and_gate, xor_gate)
         s.set xor_gate.out
-        c.set and_gate.out
+        c_out.set and_gate.out
       end
     end
   end
