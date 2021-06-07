@@ -1,81 +1,83 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'circuits/component/sr_nand'
 
 describe Circuits::Component::SrNand do
   describe '#tick' do
-    subject { Circuits::Component::SrNand.new }
+    subject(:component) { described_class.new }
 
     context 'it has just been initialized' do
       it 'is unset' do
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
 
       it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
     end
 
     context 'is set' do
       before do
-        subject[:not_s].set false
-        subject[:not_r].set true
-        subject.tick
-        subject.tock
-        subject[:not_s].set true
+        component[:not_s].set false
+        component[:not_r].set true
+        component.tick
+        component.tock
+        component[:not_s].set true
       end
 
       it 'is set' do
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+        expect(component[:q].get).to eq true
+        expect(component[:not_q].get).to eq false
       end
 
       it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq true
+        expect(component[:not_q].get).to eq false
       end
 
       it 'can be reset' do
-        subject[:not_r].set false
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        component[:not_r].set false
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
     end
 
     context 'is reset' do
       before do
-        subject[:not_s].set true
-        subject[:not_r].set false
-        subject.tick
-        subject.tock
-        subject[:not_r].set true
+        component[:not_s].set true
+        component[:not_r].set false
+        component.tick
+        component.tock
+        component[:not_r].set true
       end
 
       it 'is reset' do
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
 
       it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
 
       it 'can be set' do
-        subject[:not_s].set false
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+        component[:not_s].set false
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq true
+        expect(component[:not_q].get).to eq false
       end
     end
   end

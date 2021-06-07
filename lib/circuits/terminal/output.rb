@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Circuits
   # An input or an output to read from and set
   module Terminal
@@ -26,11 +28,11 @@ module Circuits
 
       # Sets the state what was last set
       def tock
-        if [Input, Output].include? @next_state.class
-          @state = @next_state.get
-        else
-          @state = @next_state
-        end
+        @state = if [Input, Output].include? @next_state.class
+                   @next_state.get
+                 else
+                   @next_state
+                 end
       end
     end
   end

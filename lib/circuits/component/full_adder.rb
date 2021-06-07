@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/component/base'
 require 'circuits/component/half_adder'
 require 'circuits/component/or'
@@ -8,8 +10,8 @@ module Circuits
     class FullAdder < Base
       def initialize
         sub_components = create_sub_components
-        super(inputs: [:a, :b, :c_in],
-              outputs: [:s, :c_out],
+        super(inputs: %i[a b c_in],
+              outputs: %i[s c_out],
               sub_components: sub_components.map { |_, v| v },
               ticks: 3)
         link sub_components
@@ -21,7 +23,7 @@ module Circuits
         {
           half_adder_in: HalfAdder.new,
           half_adder_carry: HalfAdder.new,
-          or_gate: Or.new,
+          or_gate: Or.new
         }
       end
 

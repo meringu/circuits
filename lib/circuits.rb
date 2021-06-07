@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/component/and'
 require 'circuits/component/d'
 require 'circuits/component/nand'

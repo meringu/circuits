@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/component/base'
 require 'circuits/component/nor'
 
@@ -8,8 +10,8 @@ module Circuits
       def initialize
         nor_s = Nor.new
         nor_r = Nor.new
-        super(inputs: [:r, :s],
-              outputs: [:q, :not_q],
+        super(inputs: %i[r s],
+              outputs: %i[q not_q],
               sub_components: [nor_s, nor_r],
               ticks: 2)
         link nor_s, nor_r
