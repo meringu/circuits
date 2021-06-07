@@ -1,81 +1,118 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'circuits/component/sr_nor'
 
 describe Circuits::Component::SrNor do
   describe '#tick' do
-    subject { Circuits::Component::SrNor.new }
+    subject(:component) { described_class.new }
 
     context 'it has just been initialized' do
       it 'is unset' do
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
 
       it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+        component.tick
+        component.tock
+        expect(component[:q].get).to eq false
+        expect(component[:not_q].get).to eq true
       end
     end
 
-    context 'is set' do
+    context 'when set' do
       before do
-        subject[:r].set false
-        subject[:s].set true
-        subject.tick
-        subject.tock
-        subject[:s].set false
+        component[:r].set false
+        component[:s].set true
+        component.tick
+        component.tock
+        component[:s].set false
       end
 
       it 'is set' do
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+        expect(component[:q].get).to eq true
+        expect(component[:not_q].get).to eq false
       end
 
-      it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+      context 'when clock is cycled' do
+        before do
+          component.tick
+          component.tock
+        end
+
+        it 'q is stable' do
+          expect(component[:q].get).to eq true
+        end
+
+        it 'not_q is stable' do
+          expect(component[:not_q].get).to eq false
+        end
       end
 
-      it 'can be reset' do
-        subject[:r].set true
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+      context 'when reset' do
+        before do
+          component[:r].set true
+          component.tick
+          component.tock
+        end
+
+        it 'q is reset' do
+          expect(component[:q].get).to eq false
+        end
+
+        it 'not_q is reset' do
+          expect(component[:not_q].get).to eq true
+        end
       end
     end
 
-    context 'is reset' do
+    context 'when reset' do
       before do
-        subject[:r].set true
-        subject[:s].set false
-        subject.tick
-        subject.tock
-        subject[:r].set false
+        component[:r].set true
+        component[:s].set false
+        component.tick
+        component.tock
+        component[:r].set false
       end
 
-      it 'is reset' do
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+      it 'q is reset' do
+        expect(component[:q].get).to eq false
       end
 
-      it 'is stable' do
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq false
-        expect(subject[:not_q].get).to eq true
+      it 'not_q is reset' do
+        expect(component[:not_q].get).to eq true
       end
 
-      it 'can be set' do
-        subject[:s].set true
-        subject.tick
-        subject.tock
-        expect(subject[:q].get).to eq true
-        expect(subject[:not_q].get).to eq false
+      context 'when clock is cycled' do
+        before do
+          component.tick
+          component.tock
+        end
+
+        it 'q is stable' do
+          expect(component[:q].get).to eq false
+        end
+
+        it 'not_q is stable' do
+          expect(component[:not_q].get).to eq true
+        end
+      end
+
+      context 'when set' do
+        before do
+          component[:s].set true
+          component.tick
+          component.tock
+        end
+
+        it 'q is set' do
+          expect(component[:q].get).to eq true
+        end
+
+        it 'not_q is set' do
+          expect(component[:not_q].get).to eq false
+        end
       end
     end
   end

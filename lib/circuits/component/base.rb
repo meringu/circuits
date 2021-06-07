@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/terminal/input'
 require 'circuits/terminal/output'
 
@@ -49,6 +51,7 @@ module Circuits
       def [](port)
         port_mapping = @port_mappings[port]
         return nil if port_mapping.nil?
+
         port_number = port_mapping[:number]
         case port_mapping[:type]
         when :input
@@ -61,12 +64,12 @@ module Circuits
       private
 
       def create_inputs(inputs)
-        input_count = inputs.class == Fixnum ? inputs : inputs.length
+        input_count = inputs.instance_of?(Integer) ? inputs : inputs.length
         input_count.times.map { Circuits::Terminal::Input.new }
       end
 
       def create_outputs(outputs)
-        output_count = outputs.class == Fixnum ? outputs : outputs.length
+        output_count = outputs.instance_of?(Integer) ? outputs : outputs.length
         output_count.times.map { Circuits::Terminal::Output.new }
       end
 
@@ -90,7 +93,8 @@ module Circuits
       end
 
       def input_mappings(input_names)
-        return default_input_mappings unless input_names.class == Array
+        return default_input_mappings unless input_names.instance_of?(Array)
+
         input_names.map.each_with_index do |input_name, num|
           { input_name => { type: :input, number: num } }
         end
@@ -99,13 +103,15 @@ module Circuits
       def default_input_mappings
         input_count = inputs.length
         return [{ in: { type: :input, number: 0 } }] if input_count == 1
+
         input_count.times.collect do |num|
           { num_to_port(num) => { type: :input, number: num } }
         end
       end
 
       def output_mappings(output_names)
-        return default_output_mappings unless output_names.class == Array
+        return default_output_mappings unless output_names.instance_of?(Array)
+
         output_names.map.each_with_index do |output_name, num|
           { output_name => { type: :output, number: num } }
         end
@@ -113,7 +119,8 @@ module Circuits
 
       def default_output_mappings
         output_count = outputs.length
-        return[{ out: { type: :output, number: 0 } }] if output_count == 1
+        return [{ out: { type: :output, number: 0 } }] if output_count == 1
+
         output_count.times.collect do |num|
           { num_to_port(num + inputs.length) => { type: :output, number: num } }
         end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/component/base'
 require 'circuits/component/nand'
 
@@ -8,8 +10,8 @@ module Circuits
       def initialize
         nand_s = Nand.new
         nand_r = Nand.new
-        super(inputs: [:not_s, :not_r],
-              outputs: [:q, :not_q],
+        super(inputs: %i[not_s not_r],
+              outputs: %i[q not_q],
               sub_components: [nand_s, nand_r],
               ticks: 2)
         link nand_s, nand_r

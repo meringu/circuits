@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'circuits/component/base'
 require 'circuits/component/and'
 require 'circuits/component/xor'
@@ -10,7 +12,7 @@ module Circuits
         and_gate = And.new
         xor_gate = Xor.new
         super(inputs: 2,
-              outputs: [:s, :c_out],
+              outputs: %i[s c_out],
               sub_components: [and_gate, xor_gate],
               ticks: 1)
         link_internals and_gate, xor_gate

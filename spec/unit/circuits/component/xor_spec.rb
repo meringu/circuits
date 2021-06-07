@@ -1,48 +1,50 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'circuits/component/xor'
 
 describe Circuits::Component::Xor do
   describe '#tick' do
-    context 'default input count' do
-      subject { Circuits::Component::Xor.new }
+    context 'with default input count' do
+      subject(:component) { described_class.new }
 
-      context 'false + false' do
+      context 'when false + false' do
         it '= false' do
-          subject.a.set false
-          subject.b.set false
-          subject.tick
-          subject.tock
-          expect(subject.out.get).to eq false
+          component.a.set false
+          component.b.set false
+          component.tick
+          component.tock
+          expect(component.out.get).to eq false
         end
       end
 
-      context 'true + false' do
+      context 'when true + false' do
         it '= true' do
-          subject.a.set true
-          subject.b.set false
-          subject.tick
-          subject.tock
-          expect(subject.out.get).to eq true
+          component.a.set true
+          component.b.set false
+          component.tick
+          component.tock
+          expect(component.out.get).to eq true
         end
       end
 
-      context 'false + true' do
+      context 'when false + true' do
         it '= true' do
-          subject.a.set false
-          subject.b.set true
-          subject.tick
-          subject.tock
-          expect(subject.out.get).to eq true
+          component.a.set false
+          component.b.set true
+          component.tick
+          component.tock
+          expect(component.out.get).to eq true
         end
       end
 
-      context 'true + true' do
+      context 'when true + true' do
         it '= false' do
-          subject.a.set true
-          subject.b.set true
-          subject.tick
-          subject.tock
-          expect(subject.out.get).to eq false
+          component.a.set true
+          component.b.set true
+          component.tick
+          component.tock
+          expect(component.out.get).to eq false
         end
       end
     end
@@ -50,19 +52,19 @@ describe Circuits::Component::Xor do
     context 'when the number of inputs is even' do
       [2, 4, 8].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xor.new inputs: n }
+          subject(:component) { described_class.new inputs: n }
 
           before do
-            n.times { |x| subject.inputs[x].set inputs[x] }
+            n.times { |x| component.inputs[x].set inputs[x] }
           end
 
           context 'when all inputs are true' do
             let(:inputs) { n.times.collect { true } }
 
             it '= false' do
-              subject.tick
-              subject.tock
-              expect(subject.out.get).to eq false
+              component.tick
+              component.tock
+              expect(component.out.get).to eq false
             end
           end
 
@@ -70,9 +72,9 @@ describe Circuits::Component::Xor do
             let(:inputs) { n.times.collect { false } }
 
             it '= false' do
-              subject.tick
-              subject.tock
-              expect(subject.out.get).to eq false
+              component.tick
+              component.tock
+              expect(component.out.get).to eq false
             end
           end
 
@@ -86,9 +88,9 @@ describe Circuits::Component::Xor do
                 end
 
                 it '= true' do
-                  subject.tick
-                  subject.tock
-                  expect(subject.out.get).to eq true
+                  component.tick
+                  component.tock
+                  expect(component.out.get).to eq true
                 end
               end
             end
@@ -96,22 +98,23 @@ describe Circuits::Component::Xor do
         end
       end
     end
+
     context 'when the number of inputs is odd' do
       [3, 5, 7].each do |n|
         context "with #{n} inputs" do
-          subject { Circuits::Component::Xor.new inputs: n }
+          subject(:component) { described_class.new inputs: n }
 
           before do
-            n.times { |x| subject.inputs[x].set inputs[x] }
+            n.times { |x| component.inputs[x].set inputs[x] }
           end
 
           context 'when all inputs are true' do
             let(:inputs) { n.times.collect { true } }
 
             it '= true' do
-              subject.tick
-              subject.tock
-              expect(subject.out.get).to eq true
+              component.tick
+              component.tock
+              expect(component.out.get).to eq true
             end
           end
 
@@ -119,9 +122,9 @@ describe Circuits::Component::Xor do
             let(:inputs) { n.times.collect { false } }
 
             it '= false' do
-              subject.tick
-              subject.tock
-              expect(subject.out.get).to eq false
+              component.tick
+              component.tock
+              expect(component.out.get).to eq false
             end
           end
 
@@ -135,9 +138,9 @@ describe Circuits::Component::Xor do
                 end
 
                 it '= false' do
-                  subject.tick
-                  subject.tock
-                  expect(subject.out.get).to eq false
+                  component.tick
+                  component.tock
+                  expect(component.out.get).to eq false
                 end
               end
             end
@@ -153,9 +156,9 @@ describe Circuits::Component::Xor do
                 end
 
                 it '= true' do
-                  subject.tick
-                  subject.tock
-                  expect(subject.out.get).to eq true
+                  component.tick
+                  component.tock
+                  expect(component.out.get).to eq true
                 end
               end
             end
